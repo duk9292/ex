@@ -1,0 +1,132 @@
+var comming_id = 168; //kazuma 420
+var group_id = 25; //kazuma 145
+
+// 중지 (// 제외 하고 입력)
+// clearInterval(timerId);
+
+// 중단된 결과까지 html 출력 (// 제외 하고 입력)
+// genHtml();
+
+// 중간에 끊어진 경우 이어서 (// 제외 하고 입력)
+// run()
+
+
+/////////////////////
+// DO NOT MODIFY
+////////////////////
+var rows = 100;
+var offset = 0;
+var base_url = "https://m.tribe-m.jp/diary/get_list?app_version=1&table_type=1&popup_movie_play_flg=true&sort=DESC&list_type=timeline";
+var total = 0;
+var posts = [];
+var flag = true;
+var timerId = 0;
+var timeout = 5000;
+
+function get_post_url(id) {
+	var post_base_url = "https://m.tribe-m.jp/diary/detail?id=" + id + "&table_type=1&comng_id=" + comming_id + "&group_id=" + group_id
+	
+	return post_base_url;
+}
+
+function genHtml() {
+	var html = "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
+	html += "<script>function popup_movie(movie){var url = 'https://m.tribe-m.jp' + movie;window.open(url,'_blank');}</script>";
+	html += "</head><body><table>";
+	
+	for (var i = 0; i < posts.length; i++) {
+		html += "<tr border='1'><td>";
+		html += "</td><td valign='top' width=550><b><h1>" + posts[i].time + " - " + posts[i].title + "</h1></b><br>" + posts[i].body + "<p>";
+		
+		var link = get_post_url(posts[i].id);
+		html += "원본 글 주소 - <a href='" + link + "' target='new'>" + link + "</a>";
+		html += "</td></tr><tr backgroundcolor='#000000'><td colspan='2'><hr/></td></tr>";
+	}
+	
+	html += "</table>";  
+	html += "posts=" + posts.length + "<br>";
+	html += "</body></html>";
+	console.log(html);
+}
+
+/*
+function print() {
+	console.log(posts.length + " posts loaded !!!");
+	
+	for (var i = 0 ; i < posts.length; i++ ) {
+		//console.log("Title: " + posts[i].title);
+		//console.log("post link: " + get_post_url(posts[i].id));
+		//console.log("body: " + posts[i].body);
+	}
+}
+*/
+//for debugging
+var diary_list;
+var request;
+function onLoadListener() {
+	//console.log(request.status);
+	console.log("[loaded] offset=" + offset + ", rows=" + rows + ", total=" + total);
+	
+	if (request.status != 200) {
+		flag = false;
+		//request failed
+		clearInterval(timerId);
+	}
+	
+	if (request.responseText.length == 0) {
+		console.log("done");
+		clearInterval(timerId);
+		//print();
+		genHtml();
+	}
+	
+	obj = JSON.parse(request.responseText);
+	diary_list = obj.diary_list;
+	total += diary_list.length;
+
+	if (request.responseText.length > 0)
+	{
+		offset = total - 1;
+	}
+
+	for (var i = 0 ; i < diary_list.length; i++ ) {
+		posts.push({"title": diary_list[i].title, "time": diary_list[i].open_time, "id": diary_list[i].id, "body": diary_list[i].body});
+	}
+	
+	flag = true;
+	//print()
+}
+
+function get_posts() {
+	var args = "group_id=" + group_id + "&comng_id=" + comming_id + "&rows=" + rows + "&offset=" + offset;
+	flag = false;
+	
+	request =  new XMLHttpRequest();
+	request.open('GET', base_url+args);
+
+	request.addEventListener("load", onLoadListener);
+	request.send();
+}
+
+function run() {
+	retry = 3;
+	console.log("Please Wait, Loading...");
+	
+	timerId = setInterval(() => {
+		if (retry == 0) {
+			clearInterval(timerId);
+			console.log("done !!!");
+			genHtml();
+		}
+		
+		if (flag) {
+			retry = 3;
+			get_posts();
+		} else {
+			console.log("retry..." + retry);
+			retry--;
+		}
+	}, timeout);
+}
+
+run();
