@@ -49,18 +49,6 @@ function genHtml() {
 	console.log(html);
 }
 
-/*
-function print() {
-	console.log(posts.length + " posts loaded !!!");
-	
-	for (var i = 0 ; i < posts.length; i++ ) {
-		//console.log("Title: " + posts[i].title);
-		//console.log("post link: " + get_post_url(posts[i].id));
-		//console.log("body: " + posts[i].body);
-	}
-}
-*/
-//for debugging
 var diary_list;
 var request;
 function onLoadListener() {
