@@ -5,7 +5,8 @@ var comming_id = 330; //kazuma 420
 var group_id = 38; //kazuma 145
 
 
-// 로딩 중지 (// 제외 하고 입력)
+// 로딩 중지 (// 제외 하고 입력) 
+// 안 멈추고 무한으로 돈다 싶을 때도 정지 가능 retry...마이너스 값이 되면 중지 시켜야 함
 // clearInterval(timerId);
 
 // 중단된 결과까지 html 출력 (// 제외 하고 입력)
