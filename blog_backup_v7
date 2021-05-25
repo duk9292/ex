@@ -1,27 +1,29 @@
-var comming_id = 420;
-var group_id = 145;
+var comming_id = 333; //kazuma 420
+var group_id = 41; //kazuma 145
 
-// 중지 (// 제외 하고 입력)
+// 중지 커맨드 (// 제외 하고 입력)
 // clearInterval(timerId);
 
-// 중단된 결과까지 html 출력 (// 제외 하고 입력)
+// 중단된 결과까지 html 출력 커맨드 (// 제외 하고 입력)
 // genHtml();
 
-// 중간에 끊어진 경우 이어서 (// 제외 하고 입력)
+// 중간에 끊어진 경우 (// 제외 하고 입력)
+// (한번에 100개씩 읽어오기 때문에, 보통 total 숫자가 00 으로 끝났을 때 덜 가져왔을 확률이 높음, 서버가 느려서 15초 안에 가져 오지 못하는 경우도 끊어짐)
 // run()
 
 
 /////////////////////
 // DO NOT MODIFY
 ////////////////////
-var rows = 100;
+var rows = 100; // 100개씩
+var timeout = 5000; //5초
+var retry = 3; // 3번까지 재시도
 var offset = 0;
 var base_url = "https://m.tribe-m.jp/diary/get_list?app_version=1&table_type=1&popup_movie_play_flg=true&sort=DESC&list_type=timeline";
 var total = 0;
 var posts = [];
 var flag = true;
 var timerId = 0;
-var timeout = 5000;
 
 function get_post_url(id) {
 	var post_base_url = "https://m.tribe-m.jp/diary/detail?id=" + id + "&table_type=1&comng_id=" + comming_id + "&group_id=" + group_id
@@ -55,16 +57,14 @@ function onLoadListener() {
 	//console.log(request.status);
 	console.log("[loaded] offset=" + offset + ", rows=" + rows + ", total=" + total);
 	
-	if (request.status != 200) {
-		flag = false;
-		//request failed
+	if (request.status != 200) {//request failed
+		flag = false;		
 		clearInterval(timerId);
 	}
 	
 	if (request.responseText.length == 0) {
 		console.log("done");
 		clearInterval(timerId);
-		//print();
 		genHtml();
 	}
 	
@@ -82,7 +82,6 @@ function onLoadListener() {
 	}
 	
 	flag = true;
-	//print()
 }
 
 function get_posts() {
@@ -97,7 +96,6 @@ function get_posts() {
 }
 
 function run() {
-	retry = 3;
 	console.log("Please Wait, Loading...");
 	
 	timerId = setInterval(() => {
