@@ -21,7 +21,6 @@ var group_id = 38; //kazuma 145
 ////////////////////
 var rows = 100; // 100개씩
 var timeout = 5000; //5초
-var retry = 3; // 3번까지 재시도
 var offset = 0;
 var base_url = "https://m.tribe-m.jp/diary/get_list?app_version=1&table_type=1&popup_movie_play_flg=true&sort=DESC&list_type=timeline";
 var total = 0;
@@ -101,7 +100,7 @@ function get_posts() {
 
 function run() {
 	console.log("Please Wait, Loading...");
-	
+	retry = 3;
 	timerId = setInterval(() => {
 		if (retry == 0) {
 			clearInterval(timerId);
