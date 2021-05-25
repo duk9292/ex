@@ -1,5 +1,5 @@
-var comming_id = 168; //kazuma 420
-var group_id = 25; //kazuma 145
+var comming_id = 420;
+var group_id = 145;
 
 // 중지 (// 제외 하고 입력)
 // clearInterval(timerId);
