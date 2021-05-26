@@ -96,3 +96,7 @@ function run() {
 		}
 	}, timeout);
 }
+
+function run2() {
+	alert("test2");
+}
