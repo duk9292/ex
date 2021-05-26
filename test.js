@@ -53,6 +53,12 @@ function genHtml() {
 	html += "posts=" + posts.length + "<br>";
 	html += "</body></html>";
 	console.log(html);
+	
+	var div = document.createElement("div");
+	for (var i = 0; i < posts.length; i++) {
+		var post = document.createTextNode(posts[i].title);
+		div.appendChild(post);
+	}
 }
 
 var diary_list;
