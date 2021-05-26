@@ -67,6 +67,12 @@ function onLoadListener() {
 	//console.log(request.status);
 	console.log("[loaded] offset=" + offset + ", rows=" + rows + ", total=" + total);
 	
+	var div = document.createElement("div");
+	for (var i = 0; i < posts.length; i++) {
+		var post = document.createTextNode("[loaded] offset=" + offset + ", rows=" + rows + ", total=" + total);
+		div.appendChild(post);
+	}
+	
 	if (request.status != 200) {//request failed
 		flag = false;		
 		clearInterval(timerId);
