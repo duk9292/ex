@@ -78,7 +78,7 @@ function onLoadListener() {
 
 	if (request.responseText.length > 0)
 	{
-		offset = total - 1;
+		offset = total;
 	}
 
 	for (var i = 0 ; i < diary_list.length; i++ ) {
