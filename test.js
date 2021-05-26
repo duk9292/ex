@@ -1,2 +1,5 @@
-console.log("test");
-alert("test");
+function run() {
+  console.log("test");
+  alert("test");
+}
+
