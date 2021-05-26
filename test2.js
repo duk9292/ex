@@ -97,6 +97,6 @@ function run() {
 	}, timeout);
 }
 
-function run2() {
+var run2 = function () {
 	alert("test2");
 }
